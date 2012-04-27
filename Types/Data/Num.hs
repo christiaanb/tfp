@@ -23,6 +23,9 @@ module Types.Data.Num
 import Types.Data.Num.Ops
 import Types.Data.Num.Decimal
 
+reifyIntegralD :: Integer -> (forall s. (IntegerT s, Repr s ~ Decimal) => s -> a) -> a
 reifyIntegralD = reifyIntegral decimal
+reifyPositiveD :: Integer -> (forall s. (PositiveT s, Repr s ~ Decimal) => s -> a) -> Maybe a
 reifyPositiveD = reifyPositive decimal
+reifyNegativeD :: Integer -> (forall s. (NegativeT s, Repr s ~ Decimal) => s -> a) -> Maybe a
 reifyNegativeD = reifyNegative decimal
