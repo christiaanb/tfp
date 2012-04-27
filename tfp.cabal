@@ -55,6 +55,7 @@ library {
 executable tfp-test {
   if flag(build-test) {
     buildable: True
+    build-depends:  base >= 3.0 && < 5, template-haskell >= 2.0, QuickCheck >= 1.2.0.0
   } else {
     buildable: False
   }
@@ -64,5 +65,4 @@ executable tfp-test {
                   MultiParamTypeClasses, GeneralizedNewtypeDeriving,
                   FunctionalDependencies, Rank2Types, FlexibleContexts
   main-is: Test.hs
-  build-depends:  base >= 3.0 && < 5, template-haskell >= 2.0, QuickCheck >= 1.2.0.0
 }
