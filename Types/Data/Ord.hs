@@ -86,31 +86,43 @@ type family x :<: y
 type instance x :<: y = IsLT (Compare x y)
 ltT :: x -> y -> x :<: y
 ltT _ _ = Prelude.undefined
+class LTT x y
+instance ((x :<: y) ~ True) => LTT x y
 
 type family x :<=: y
 type instance x :<=: y = Not (x :>: y)
 leT :: x -> y -> x :<=: y
 leT _ _ = Prelude.undefined
+class LET x y
+instance ((x :<=: y) ~ True) => LET x y
 
 type family x :==: y
 type instance x :==: y = IsEQ (Compare x y)
 eqT :: x -> y -> x :==: y
 eqT _ _ = Prelude.undefined
+class EQT x y
+instance ((x :==: y) ~ True) => EQT x y
 
 type family x :/=: y
 type instance x :/=: y = Not (x :==: y)
 neT :: x -> y -> x :/=: y
 neT _ _ = Prelude.undefined
+class NET x y
+instance ((x :/=: y) ~ True) => NET x y
 
 type family x :>=: y
 type instance x :>=: y = Not (x :<: y)
 geT :: x -> y -> x :>=: y
 geT _ _ = Prelude.undefined
+class GET x y
+instance ((x :>=: y) ~ True) => GET x y
 
 type family x :>: y
 type instance x :>: y = IsGT (Compare x y)
 gtT :: x -> y -> x :>: y
 gtT _ _ = Prelude.undefined
+class GTT x y
+instance ((x :>: y) ~ True) => GTT x y
 
 type family Min x y
 type instance Min x y = If (x :<=: y) x y
