@@ -135,6 +135,13 @@ type instance IsNegative' (Neg' x)   = True
 type instance IsNegative' DecN       = False
 type instance IsNegative' (xh :. xl) = False
 
+-- type family IsNatural x
+type instance IsNatural (Dec x) = IsNatural' x
+type family IsNatural' x
+type instance IsNatural' (Neg' x)   = False
+type instance IsNatural' DecN       = True
+type instance IsNatural' (xh :. xl) = True
+
 -- type family Neg x
 type instance Neg (Dec DecN)     = Dec DecN
 type instance Neg (Dec (Neg' x)) = Dec x

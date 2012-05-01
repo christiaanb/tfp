@@ -22,6 +22,8 @@ module Types.Data.Num.Ops
     , isZeroT
     , IsNegative
     , isNegativeT
+    , IsNatural
+    , isNaturalT
     , Succ
     , succT
     , Pred
@@ -57,6 +59,7 @@ module Types.Data.Num.Ops
     , NegativeT
     , reifyPositive
     , reifyNegative
+    , reifyNatural
     ) where
 
 import Types.Data.Bool
@@ -81,6 +84,10 @@ isZeroT _ = undefined
 type family IsNegative x
 isNegativeT :: x -> IsNegative x
 isNegativeT _ = undefined
+
+type family IsNatural x
+isNaturalT :: x -> IsNatural x
+isNaturalT _ = undefined
 
 type family Succ x
 succT :: x -> Succ x
@@ -140,8 +147,7 @@ pow2T :: x -> Pow2 x
 pow2T _ = undefined
 
 class IntegerT x => NaturalT x
-instance (IntegerT x, IsNegative x ~ False) => NaturalT x
-
+instance (IntegerT x, IsNatural x  ~ True) => NaturalT x
 class IntegerT x => PositiveT x
 instance (IntegerT x, IsPositive x ~ True) => PositiveT x
 class IntegerT x => NegativeT x
@@ -158,6 +164,7 @@ class IntegerR r where
 --- positive and negative assertions: unsafe, in a trusted kernel
 data AssertPos x
 data AssertNeg x
+data AssertNat x
 
 assertPos :: x -> AssertPos x
 assertPos _ = undefined
@@ -165,8 +172,19 @@ assertPos _ = undefined
 assertNeg :: x -> AssertNeg x
 assertNeg _ = undefined
 
+assertNat :: x -> AssertNat x
+assertNat _ = undefined
+
 type instance IsPositive (AssertPos x) = True
+type instance IsPositive (AssertNeg x) = False
+
+type instance IsNegative (AssertPos x) = False
 type instance IsNegative (AssertNeg x) = True
+type instance IsNegative (AssertNat x) = False
+
+type instance IsNatural  (AssertPos x) = True
+type instance IsNatural  (AssertNeg x) = False
+type instance IsNatural  (AssertNat x) = True
 
 instance IntegerT x => IntegerT (AssertPos x) where 
     fromIntegerT _ = fromIntegerT (undefined :: x)
@@ -176,10 +194,17 @@ instance IntegerT x => IntegerT (AssertNeg x) where
     fromIntegerT _ = fromIntegerT (undefined :: x)
     type Repr (AssertNeg x) = Repr x
 
+instance IntegerT x => IntegerT (AssertNat x) where
+    fromIntegerT _ = fromIntegerT (undefined :: x)
+    type Repr (AssertNat x) = Repr x
+
 reifyPositive :: IntegerR r => r -> Integer -> (forall s. (PositiveT s, Repr s ~ r) => s -> a) -> Maybe a
 reifyPositive r n k | n > 0     = Just (reifyIntegral r n (k . assertPos))
                     | otherwise = Nothing
 
 reifyNegative :: IntegerR r => r -> Integer -> (forall s. (NegativeT s, Repr s ~ r) => s -> a) -> Maybe a
 reifyNegative r n k | n < 0     = Just (reifyIntegral r n (k . assertNeg))
+                    | otherwise = Nothing
+reifyNatural :: IntegerR r => r -> Integer -> (forall s. (NaturalT s, Repr s ~ r) => s -> a) -> Maybe a
+reifyNatural r n k | n >= 0     = Just (reifyIntegral r n (k . assertNat))
                     | otherwise = Nothing

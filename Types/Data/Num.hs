@@ -20,6 +20,7 @@ module Types.Data.Num
     , reifyIntegralD
     , reifyPositiveD
     , reifyNegativeD
+    , reifyNaturalD
 #endif
     ) where
 
@@ -47,4 +48,8 @@ reifyPositiveD = reifyPositive decimal
 reifyNegativeD :: Integer -> (forall s. (NegativeT s, Repr s ~ Decimal) => s -> a) -> Maybe a
 #endif
 reifyNegativeD = reifyNegative decimal
+#if __GLASGOW_HASKELL__ >= 704
+reifyNaturalD :: Integer -> (forall s. (NaturalT s, Repr s ~ Decimal) => s -> a) -> Maybe a
+#endif
+reifyNaturalD = reifyNatural decimal
 #endif
