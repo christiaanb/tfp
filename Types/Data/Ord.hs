@@ -26,14 +26,19 @@ module Types.Data.Ord
     , isGTT
     , (:<:)
     , ltT
+    , LTT
     , (:<=:)
     , leT
+    , LET
     , (:==:)
     , eqT
+    , EQT
     , (:>=:)
     , geT
+    , GET
     , (:>:)
     , gtT
+    , GTT
     , Min
     , minT
     , Max
