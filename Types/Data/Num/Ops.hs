@@ -42,6 +42,8 @@ module Types.Data.Num.Ops
     , mul2T
     , Pow2
     , pow2T
+    , Log2
+    , log2T
     , DivMod
     , divModT
     , Div
@@ -145,6 +147,10 @@ facT _ = undefined
 type family Pow2 x
 pow2T :: x -> Pow2 x
 pow2T _ = undefined
+
+type family Log2 x
+log2T :: x -> Log2 x
+log2T _ = undefined
 
 class IntegerT x => NaturalT x
 instance (IntegerT x, IsNatural x  ~ True) => NaturalT x

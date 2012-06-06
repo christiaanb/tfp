@@ -220,6 +220,15 @@ testMax2 = Prelude.id
 testMax3 :: Max D6 D1 -> D6
 testMax3 = Prelude.id
 
+testLog1 :: Log2 D8 -> D3
+testLog1 = Prelude.id
+testLog2 :: Log2 D9 -> D4
+testLog2 = Prelude.id
+testLog3 :: Log2 D2 -> D1
+testLog3 = Prelude.id
+testLog4 :: Log2 D1 -> D0
+testLog4 = Prelude.id
+
 class TestIter n zero where
     testIter :: n -> zero -> Prelude.String
 
