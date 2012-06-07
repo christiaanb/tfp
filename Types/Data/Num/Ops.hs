@@ -42,8 +42,8 @@ module Types.Data.Num.Ops
     , mul2T
     , Pow2
     , pow2T
-    , Log2
-    , log2T
+    , Log2Ceil
+    , log2CeilT
     , DivMod
     , divModT
     , Div
@@ -148,9 +148,9 @@ type family Pow2 x
 pow2T :: x -> Pow2 x
 pow2T _ = undefined
 
-type family Log2 x
-log2T :: x -> Log2 x
-log2T _ = undefined
+type family Log2Ceil x
+log2CeilT :: x -> Log2Ceil x
+log2CeilT _ = undefined
 
 class IntegerT x => NaturalT x
 instance (IntegerT x, IsNatural x  ~ True) => NaturalT x

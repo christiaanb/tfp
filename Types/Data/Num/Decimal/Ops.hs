@@ -771,12 +771,12 @@ type instance Pow2' (xh :. xl) y = Pow2' (Pred' (xh :. xl)) (Mul2' y)
 
 ---------------
 -- Logarithm
-type instance Log2 (Dec x) = Dec (Log2' (Pred' x) DecN)
+type instance Log2Ceil (Dec x) = Dec (Log2C' (Pred' x) DecN)
 
-type family Log2' x y
-type instance Log2' (Neg' x) y   = DecN
-type instance Log2' DecN     y   = y
-type instance Log2' (xh :. xl) y = Log2' (Div2' (xh :. xl)) (Succ' y)
+type family Log2C' x y
+type instance Log2C' (Neg' x) y   = DecN
+type instance Log2C' DecN     y   = y
+type instance Log2C' (xh :. xl) y = Log2C' (Div2' (xh :. xl)) (Succ' y)
 
 ---------------
 -- Compare
